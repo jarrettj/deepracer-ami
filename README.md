@@ -19,13 +19,19 @@ In rl_coach/rl_deepracer_coach_robomaker.py
 
 # Starting training
 Sagemaker:
+```
 nohup python rl_deepracer_coach_robomaker.py > sagemaker.log &
+```
 
 Robomaker:
+```
 nohup docker run --rm --name dr --env-file ./robomaker.env --network sagemaker-local -p 8080:5900 -i crr0004/deepracer_robomaker:console > robomaker.log &
+```
 
 # Evaluation
+```
 docker run --rm --name dr_e --env-file ./robomaker.env --network sagemaker-local -p 8181:5900 -it -e "WORLD_NAME=reinvent_base" -e "NUMBER_OF_TRIALS=1" -e "METRICS_S3_OBJECT_KEY=custom_files/eval_metric.json" crr0004/deepracer_robomaker:console "./run.sh build evaluation.launch"
+```
 
 # Log analysis
 Use port forwarding:
@@ -64,6 +70,7 @@ Use the two highest memory values in the following command
 sudo nvidia-smi -ac 2505,1177
 ```
 
-TODO: 
+#TODO: 
 1. Script it all together to easily manage spot instances stopping.
 2. Figure out why it runs on certain GPU instances only.
+3. I'm working on a Mac. Not sure what issues would be encountered elsewhere. 
