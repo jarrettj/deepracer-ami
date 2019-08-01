@@ -18,6 +18,7 @@ In rl_coach/rl_deepracer_coach_robomaker.py
 1. instance_type - local or local_gpu depending on ec2 type
 
 # Starting training
+You don't have to use nohup, I simply use it to background the process and capture output to a file for analysis later.
 Sagemaker:
 ```
 nohup python rl_deepracer_coach_robomaker.py > sagemaker.log &
@@ -29,6 +30,7 @@ nohup docker run --rm --name dr --env-file ./robomaker.env --network sagemaker-l
 ```
 
 # Evaluation
+Update WORLD_NAME and the NUMBER_OF_TRIALS you want.
 ```
 docker run --rm --name dr_e --env-file ./robomaker.env --network sagemaker-local -p 8181:5900 -it -e "WORLD_NAME=reinvent_base" -e "NUMBER_OF_TRIALS=1" -e "METRICS_S3_OBJECT_KEY=custom_files/eval_metric.json" crr0004/deepracer_robomaker:console "./run.sh build evaluation.launch"
 ```
