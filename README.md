@@ -9,7 +9,32 @@ Uses crr0004 [repo](https://github.com/crr0004/deepracer). And followed this gui
 # Find in AMI Public repo
 Search for deepracer-ami in AWS EC2 Console. Available in the US East 1 and EU West 1 regions. Try and choose an EC2 with GPU enabled. 
 
-Top pick for me are the g3.4xlarge instances, spots of course.
+Top pick for me are the g3 instance class, spots of course.
+
+## g2.2xlarge
+|vCPU|ECU|Memory (GiB)|Instance Storage (GB)|Linux/UNIX Usage|Spot Usage
+| ---- | ---- | ---- | ---- | ---- | ---- |
+|8|26|15 GiB 1|60 SSD|$0.65 per Hour|$0.225
+
+Real Time Factor of 0.7 - 0.9.
+Sample of time to train 10 models on the AWS_track with all settings left as default:
+
+```
+ls /mnt/data/minio/bucket/rl-deepracer-sagemaker/model/*.pb -laht
+-rw-r--r-- 1 ubuntu ubuntu 23M Aug  2 12:41 /mnt/data/minio/bucket/rl-deepracer-sagemaker/model/model_10.pb
+-rw-r--r-- 1 ubuntu ubuntu 23M Aug  2 12:39 /mnt/data/minio/bucket/rl-deepracer-sagemaker/model/model_9.pb
+-rw-r--r-- 1 ubuntu ubuntu 23M Aug  2 12:38 /mnt/data/minio/bucket/rl-deepracer-sagemaker/model/model_8.pb
+-rw-r--r-- 1 ubuntu ubuntu 23M Aug  2 12:36 /mnt/data/minio/bucket/rl-deepracer-sagemaker/model/model_7.pb
+-rw-r--r-- 1 ubuntu ubuntu 23M Aug  2 12:33 /mnt/data/minio/bucket/rl-deepracer-sagemaker/model/model_6.pb
+-rw-r--r-- 1 ubuntu ubuntu 23M Aug  2 12:31 /mnt/data/minio/bucket/rl-deepracer-sagemaker/model/model_5.pb
+-rw-r--r-- 1 ubuntu ubuntu 23M Aug  2 12:29 /mnt/data/minio/bucket/rl-deepracer-sagemaker/model/model_4.pb
+-rw-r--r-- 1 ubuntu ubuntu 23M Aug  2 12:25 /mnt/data/minio/bucket/rl-deepracer-sagemaker/model/model_3.pb
+-rw-r--r-- 1 ubuntu ubuntu 23M Aug  2 12:23 /mnt/data/minio/bucket/rl-deepracer-sagemaker/model/model_2.pb
+-rw-r--r-- 1 ubuntu ubuntu 23M Aug  2 12:18 /mnt/data/minio/bucket/rl-deepracer-sagemaker/model/model_1.pb
+-rw-r--r-- 1 ubuntu ubuntu 23M Aug  2 12:11 /mnt/data/minio/bucket/rl-deepracer-sagemaker/model/model_0.pb
+```
+
+Took about 30 minutes. 
 
 # Changes you have to make
 In robomaker.env and rl_coach/env.sh
@@ -58,7 +83,27 @@ I've put the aws-deepracer-workshops repo on the data mount at /mnt/data. You sh
 
 All you have to do now is copy your robomaker.log file into the /mnt/data/aws-deepracer-workshops/log-analysis/logs folder, then reference it in DeepRacer Log Analysis. I replace the fname with the path to the generated robomaker.log file.
 
-# Optimise GPU
+# Optimise GPU 
+This might be needed. But first run your training before setting these. And remember it might take a while for the training to start. If the GPU is in use you should see the following:
+```
++-----------------------------------------------------------------------------+
+| NVIDIA-SMI 390.116                Driver Version: 390.116                   |
+|-------------------------------+----------------------+----------------------+
+| GPU  Name        Persistence-M| Bus-Id        Disp.A | Volatile Uncorr. ECC |
+| Fan  Temp  Perf  Pwr:Usage/Cap|         Memory-Usage | GPU-Util  Compute M. |
+|===============================+======================+======================|
+|   0  GRID K520           Off  | 00000000:00:03.0 Off |                  N/A |
+| N/A   36C    P8    17W / 125W |     48MiB /  4037MiB |      0%      Default |
++-------------------------------+----------------------+----------------------+
+                                                                               
++-----------------------------------------------------------------------------+
+| Processes:                                                       GPU Memory |
+|  GPU       PID   Type   Process name                             Usage      |
+|=============================================================================|
+|    0      3004      C   /usr/bin/python                               37MiB |
++-----------------------------------------------------------------------------+
+```
+
 If you are using a GPU based image, run the following: ([Optimize GPU](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/optimize_gpu.html))
 ```
 sudo nvidia-persistenced
