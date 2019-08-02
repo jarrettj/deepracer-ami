@@ -7,7 +7,7 @@ My attempt at using all the knowledge gained so far from the community. [Join he
 Uses crr0004 [repo](https://github.com/crr0004/deepracer). And followed this guide as well of jonathantse [here](https://medium.com/@jonathantse/train-deepracer-model-locally-with-gpu-support-29cce0bdb0f9). 
 
 # Find in AMI Public repo
-Search for deepracer-ami in AWS EC2 Console. Try and choose an EC2 with GPU enabled. 
+Search for deepracer-ami in AWS EC2 Console. Available in the US East 1 and EU West 1 regions. Try and choose an EC2 with GPU enabled. 
 
 Top pick for me are the g3.4xlarge instances, spots of course.
 
