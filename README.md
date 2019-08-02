@@ -9,6 +9,8 @@ Uses crr0004 [repo](https://github.com/crr0004/deepracer). And followed this gui
 # Find in AMI Public repo
 Search for deepracer-ami in AWS EC2 Console. Try and choose an EC2 with GPU enabled. 
 
+Top pick for me are the g3.4xlarge instances, spots of course.
+
 # Changes you have to make
 In robomaker.env and rl_coach/env.sh
 1. WORLD_NAME - Replace with track you want to train
