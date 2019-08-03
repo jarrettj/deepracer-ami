@@ -123,3 +123,4 @@ sudo nvidia-smi -ac 2505,1177
 1. Script it all together to easily manage spot instances stopping.
 2. Figure out why it runs on certain GPU instances only.
 3. I'm working on a Mac. Not sure what issues would be encountered elsewhere. 
+4. Add China track.
