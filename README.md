@@ -4,7 +4,7 @@ AWS DeepRacer AMI
 # Intro
 My attempt at using all the knowledge gained so far from the community. [Join here](https://join.slack.com/t/deepracer-community/shared_invite/enQtNjgyMTQ5MjA0OTMzLTZjN2E5N2MyMGIxYTYyNGRiNGU3NDhmNjBhMTlkZmY5ZDhmMjBmY2I1YjUzNTRkMjZjZDVlNDE1MTAyOWNiYjE). Will try and make setting up a cheaper environment on EC2 easier. 
 
-Uses crr0004 [repo](https://github.com/crr0004/deepracer). And followed this guide as well of jonathantse [here](https://medium.com/@jonathantse/train-deepracer-model-locally-with-gpu-support-29cce0bdb0f9). 
+Uses crr0004 [repo](https://github.com/crr0004/deepracer). And followed this guide as well of jonathantse [here](https://medium.com/@jonathantse/train-deepracer-model-locally-with-gpu-support-29cce0bdb0f9). Also do read crr0004's [wiki page](https://github.com/crr0004/deepracer/wiki), it's very helpful.
 
 # Find in AMI Public repo
 Search for deepracer-ami in AWS EC2 Console. Available in the US East 1 and EU West 1 regions. Try and choose an EC2 with GPU enabled. 
