@@ -6,15 +6,8 @@ My attempt at using all the knowledge gained so far from the community. [Join he
 
 Uses crr0004 [repo](https://github.com/crr0004/deepracer). And followed this guide as well of jonathantse [here](https://medium.com/@jonathantse/train-deepracer-model-locally-with-gpu-support-29cce0bdb0f9). Also do read crr0004's [wiki page](https://github.com/crr0004/deepracer/wiki), it's very helpful.
 
-# Find in AMI Public repo
-Search for deepracer-ami in AWS EC2 Console. Available in the US East 1 and EU West 1 regions. Try and choose an EC2 with GPU enabled. 
-
-Top pick for me are the g3 instance class, spots of course.
-
-## Launch
-Depending on your budget change the disk type. 
-
-SSD root device is a good choice but you can change the data mount to normal magnetic disk.
+# EC2 Launch
+[Detailed description](https://github.com/jarrettj/deepracer-ami/wiki/Launch-EC2-instance) with screenshots.
 
 ## g2.2xlarge
 |vCPU|ECU|Memory (GiB)|Instance Storage (GB)|Linux/UNIX Usage|Spot Usage
@@ -23,7 +16,6 @@ SSD root device is a good choice but you can change the data mount to normal mag
 
 Real Time Factor of 0.7 - 0.9.
 Sample of time to train 10 models on the AWS_track with all settings left as default:
-
 ```
 ls /mnt/data/minio/bucket/rl-deepracer-sagemaker/model/*.pb -laht
 -rw-r--r-- 1 ubuntu ubuntu 23M Aug  2 12:41 /mnt/data/minio/bucket/rl-deepracer-sagemaker/model/model_10.pb
@@ -124,9 +116,16 @@ Use the two highest memory values in the following command
 sudo nvidia-smi -ac 2505,1177
 ```
 
+# China track
+Add the following to RoboMaker startup:
+```
+-v {path_to_your_project_folder}/simulation/aws-robomaker-sample-application-deepracer/simulation_ws/src:/app/robomaker-deepracer/simulation_ws/src
+```
+
 #TODO: 
 1. Script it all together to easily manage spot instances stopping.
 2. Figure out why it runs on certain GPU instances only.
 3. I'm working on a Mac. Not sure what issues would be encountered elsewhere. 
-4. Add China track.
+
+
 
