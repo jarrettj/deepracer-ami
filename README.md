@@ -11,6 +11,11 @@ Search for deepracer-ami in AWS EC2 Console. Available in the US East 1 and EU W
 
 Top pick for me are the g3 instance class, spots of course.
 
+## Launch
+Depending on your budget change the disk type. 
+
+SSD root device is a good choice but you can change the data mount to normal magnetic disk.
+
 ## g2.2xlarge
 |vCPU|ECU|Memory (GiB)|Instance Storage (GB)|Linux/UNIX Usage|Spot Usage
 | ---- | ---- | ---- | ---- | ---- | ---- |
@@ -124,3 +129,4 @@ sudo nvidia-smi -ac 2505,1177
 2. Figure out why it runs on certain GPU instances only.
 3. I'm working on a Mac. Not sure what issues would be encountered elsewhere. 
 4. Add China track.
+
