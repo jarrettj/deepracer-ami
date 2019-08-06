@@ -14,24 +14,44 @@ Uses crr0004 [repo](https://github.com/crr0004/deepracer). And followed this gui
 | ---- | ---- | ---- | ---- | ---- | ---- |
 |8|26|15 GiB 1|60 SSD|$0.65 per Hour|$0.225
 
+[GPU Details]
+nVidia Corporation GK104GL [GRID K520](https://www.techpowerup.com/gpu-specs/grid-k520.c2312)
+
 Real Time Factor of 0.7 - 0.9.
 Sample of time to train 10 models on the AWS_track with all settings left as default:
 ```
 ls /mnt/data/minio/bucket/rl-deepracer-sagemaker/model/*.pb -laht
 -rw-r--r-- 1 ubuntu ubuntu 23M Aug  2 12:41 /mnt/data/minio/bucket/rl-deepracer-sagemaker/model/model_10.pb
--rw-r--r-- 1 ubuntu ubuntu 23M Aug  2 12:39 /mnt/data/minio/bucket/rl-deepracer-sagemaker/model/model_9.pb
--rw-r--r-- 1 ubuntu ubuntu 23M Aug  2 12:38 /mnt/data/minio/bucket/rl-deepracer-sagemaker/model/model_8.pb
--rw-r--r-- 1 ubuntu ubuntu 23M Aug  2 12:36 /mnt/data/minio/bucket/rl-deepracer-sagemaker/model/model_7.pb
--rw-r--r-- 1 ubuntu ubuntu 23M Aug  2 12:33 /mnt/data/minio/bucket/rl-deepracer-sagemaker/model/model_6.pb
--rw-r--r-- 1 ubuntu ubuntu 23M Aug  2 12:31 /mnt/data/minio/bucket/rl-deepracer-sagemaker/model/model_5.pb
--rw-r--r-- 1 ubuntu ubuntu 23M Aug  2 12:29 /mnt/data/minio/bucket/rl-deepracer-sagemaker/model/model_4.pb
--rw-r--r-- 1 ubuntu ubuntu 23M Aug  2 12:25 /mnt/data/minio/bucket/rl-deepracer-sagemaker/model/model_3.pb
--rw-r--r-- 1 ubuntu ubuntu 23M Aug  2 12:23 /mnt/data/minio/bucket/rl-deepracer-sagemaker/model/model_2.pb
--rw-r--r-- 1 ubuntu ubuntu 23M Aug  2 12:18 /mnt/data/minio/bucket/rl-deepracer-sagemaker/model/model_1.pb
+...
 -rw-r--r-- 1 ubuntu ubuntu 23M Aug  2 12:11 /mnt/data/minio/bucket/rl-deepracer-sagemaker/model/model_0.pb
 ```
 
 Took about 30 minutes. 
+
+Note:
+Ran into OOM issue though during extended periods of training. I'll retest when there's another track update or teh like.
+
+## g3s.xlarge
+[GPU Details]
+nVidia Corporation [Tesla M60](https://www.nvidia.com/object/tesla-m60.html)
+|vCPU|ECU|Memory (GiB)|Instance Storage (GB)|Linux/UNIX Usage|Spot Usage
+| ---- | ---- | ---- | ---- | ---- | ---- |
+|4|13|30.5 GiB|EBS Only|$0.75 per Hour|$0.3
+
+Real Time Factor of coming soon.
+Sample of time to train 10 models on the AWS_track with all settings left as default:
+coming soon
+
+## g3.4xlarge
+[GPU Details] 
+nVidia Corporation [Tesla M60](https://www.nvidia.com/object/tesla-m60.html)
+|vCPU|ECU|Memory (GiB)|Instance Storage (GB)|Linux/UNIX Usage|Spot Usage
+| ---- | ---- | ---- | ---- | ---- | ---- |
+|16|47|122 GiB|EBS Only|$1.14 per Hour|$0.5
+
+Real Time Factor of coming soon.
+Sample of time to train 10 models on the AWS_track with all settings left as default:
+coming soon
 
 # Changes you have to make
 In robomaker.env and rl_coach/env.sh
@@ -47,10 +67,18 @@ Sagemaker:
 ```
 nohup python rl_deepracer_coach_robomaker.py > sagemaker.log &
 ```
+Without nohup:
+```
+python rl_deepracer_coach_robomaker.py
+```
 
 Robomaker:
 ```
 nohup docker run --rm --name dr --env-file ./robomaker.env --network sagemaker-local -p 8080:5900 -i crr0004/deepracer_robomaker:console > robomaker.log &
+```
+Without nohup:
+```
+nohup docker run --rm --name dr --env-file ./robomaker.env --network sagemaker-local -p 8080:5900 -it crr0004/deepracer_robomaker:console
 ```
 
 # Evaluation
@@ -120,6 +148,8 @@ sudo nvidia-smi -ac 2505,1177
 Add the following to RoboMaker startup:
 ```
 -v {path_to_your_project_folder}/simulation/aws-robomaker-sample-application-deepracer/simulation_ws/src:/app/robomaker-deepracer/simulation_ws/src
+
+nohup docker run -v /home/ubuntu/deepracer/simulation/aws-robomaker-sample-application-deepracer/simulation_ws/src:/app/robomaker-deepracer/simulation_ws/src --rm --name dr --env-file ./robomaker.env --network sagemaker-local -p 8080:5900 -i crr0004/deepracer_robomaker:console > robomaker.log &
 ```
 
 #TODO: 
