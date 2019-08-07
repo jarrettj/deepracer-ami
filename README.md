@@ -12,7 +12,7 @@ Uses crr0004 [repo](https://github.com/crr0004/deepracer). And followed this gui
 ## g2.2xlarge
 |vCPU|ECU|Memory (GiB)|Instance Storage (GB)|Linux/UNIX Usage|Spot Usage
 | ---- | ---- | ---- | ---- | ---- | ---- |
-|8|26|15 GiB 1|60 SSD|$0.65 per Hour|$0.225
+|8|26|15 GiB 1|60 SSD|$0.65 per Hour|$0.225|
 
 [GPU Details]
 nVidia Corporation GK104GL [GRID K520](https://www.techpowerup.com/gpu-specs/grid-k520.c2312)
@@ -32,22 +32,24 @@ Note:
 Ran into OOM issue though during extended periods of training. I'll retest when there's another track update or teh like.
 
 ## g3s.xlarge
-[GPU Details]
-nVidia Corporation [Tesla M60](https://www.nvidia.com/object/tesla-m60.html)
 |vCPU|ECU|Memory (GiB)|Instance Storage (GB)|Linux/UNIX Usage|Spot Usage
 | ---- | ---- | ---- | ---- | ---- | ---- |
-|4|13|30.5 GiB|EBS Only|$0.75 per Hour|$0.3
+|4|13|30.5 GiB|EBS Only|$0.75 per Hour|$0.3|
+
+[GPU Details]
+nVidia Corporation [Tesla M60](https://www.nvidia.com/object/tesla-m60.html)
 
 Real Time Factor of coming soon.
 Sample of time to train 10 models on the AWS_track with all settings left as default:
 coming soon
 
 ## g3.4xlarge
-[GPU Details] 
-nVidia Corporation [Tesla M60](https://www.nvidia.com/object/tesla-m60.html)
 |vCPU|ECU|Memory (GiB)|Instance Storage (GB)|Linux/UNIX Usage|Spot Usage
 | ---- | ---- | ---- | ---- | ---- | ---- |
-|16|47|122 GiB|EBS Only|$1.14 per Hour|$0.5
+|16|47|122 GiB|EBS Only|$1.14 per Hour|$0.5|
+
+[GPU Details] 
+nVidia Corporation [Tesla M60](https://www.nvidia.com/object/tesla-m60.html)
 
 Real Time Factor of coming soon.
 Sample of time to train 10 models on the AWS_track with all settings left as default:
