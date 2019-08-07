@@ -154,7 +154,7 @@ Add the following to RoboMaker startup:
 nohup docker run -v /home/ubuntu/deepracer/simulation/aws-robomaker-sample-application-deepracer/simulation_ws/src:/app/robomaker-deepracer/simulation_ws/src --rm --name dr --env-file ./robomaker.env --network sagemaker-local -p 8080:5900 -i crr0004/deepracer_robomaker:console > robomaker.log &
 ```
 
-#TODO: 
+# TODO: 
 1. Script it all together to easily manage spot instances stopping.
 2. Figure out why it runs on certain GPU instances only.
 3. I'm working on a Mac. Not sure what issues would be encountered elsewhere. 
