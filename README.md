@@ -28,8 +28,9 @@ ls /mnt/data/minio/bucket/rl-deepracer-sagemaker/model/*.pb -laht
 
 Took about 30 minutes. 
 
-Note:
-Ran into OOM issue though during extended periods of training. I'll retest when there's another track update or teh like.
+Notes:
+Ran into OOM issue though during extended periods of training. I'll retest when there's another track update or thw like.
+Really strugging with this instance type. The CPUs are awesome, but the GPU is not fully utilised for some reason. Will try and get some answers from AWS. 
 
 ## g3s.xlarge
 |vCPU|ECU|Memory (GiB)|Instance Storage (GB)|Linux/UNIX Usage|Spot Usage
