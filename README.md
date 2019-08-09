@@ -21,16 +21,16 @@ Real Time Factor of 0.7 - 0.9.
 Sample of time to train 10 models on the AWS_track with all settings left as default:
 ```
 ls /mnt/data/minio/bucket/rl-deepracer-sagemaker/model/*.pb -laht
--rw-r--r-- 1 ubuntu ubuntu 23M Aug  2 12:41 /mnt/data/minio/bucket/rl-deepracer-sagemaker/model/model_10.pb
+-rw-r--r-- 1 ubuntu ubuntu 23M Aug  2 12:38 /mnt/data/minio/bucket/rl-deepracer-sagemaker/model/model_9.pb
 ...
 -rw-r--r-- 1 ubuntu ubuntu 23M Aug  2 12:11 /mnt/data/minio/bucket/rl-deepracer-sagemaker/model/model_0.pb
 ```
 
-Took about 30 minutes. 
+Took about 30 minutes for the initial test. But stopping the training and resuming with only a slight change in action space speed and the reward function made the next 10 models generate in nearly 4 hours.
 
 Notes:
-Ran into OOM issue though during extended periods of training. I'll retest when there's another track update or thw like.
-Really strugging with this instance type. The CPUs are awesome, but the GPU is not fully utilised for some reason. Will try and get some answers from AWS. 
+Ran into OOM issue though during extended periods of training. I'll retest when there's another track update or the like.
+Really strugging with this instance type. The CPUs are awesome, but the GPU is not fully utilised for some reason. Will try and get some answers from AWS. As the training goes on the GPU lets it down.
 
 ## g3s.xlarge
 |vCPU|ECU|Memory (GiB)|Instance Storage (GB)|Linux/UNIX Usage|Spot Usage
@@ -52,9 +52,28 @@ coming soon
 [GPU Details] 
 nVidia Corporation [Tesla M60](https://www.nvidia.com/object/tesla-m60.html)
 
-Real Time Factor of coming soon.
+Real Time Factor of 0.9 - 1.
 Sample of time to train 10 models on the AWS_track with all settings left as default:
-coming soon
+```
+ls /mnt/data/minio/bucket/rl-deepracer-sagemaker/model/*.pb -laht
+-rw-r--r-- 1 ubuntu ubuntu 23M Aug  7 10:10 /mnt/data/minio/bucket/rl-deepracer-sagemaker/model/model_9.pb
+...
+-rw-r--r-- 1 ubuntu ubuntu 23M Aug  7 09:46 /mnt/data/minio/bucket/rl-deepracer-sagemaker/model/model_0.pb
+```
+
+Took about 24 minutes for the initial test. 
+
+When I continued training on an existing model it took a bit longer. But not as long as the g2.2xlarge.
+```
+ls /mnt/data/minio/bucket/rl-deepracer-sagemaker/model/*.pb -laht
+-rw-r--r-- 1 ubuntu ubuntu 23M Aug  8 07:50 /mnt/data/minio/bucket/rl-deepracer-sagemaker/model/model_9.pb
+...
+-rw-r--r-- 1 ubuntu ubuntu 23M Aug  8 06:39 /mnt/data/minio/bucket/rl-deepracer-sagemaker/model/model_0.pb
+```
+
+Took about 70 minutes for the pretrained test. 
+
+I made the same changes as before. Increased the action space speed and then updated to reward function slightly to cater for action space speed update.
 
 # Changes you have to make
 In robomaker.env and rl_coach/env.sh
