@@ -100,7 +100,7 @@ nohup docker run --rm --name dr --env-file ./robomaker.env --network sagemaker-l
 ```
 Without nohup:
 ```
-nohup docker run --rm --name dr --env-file ./robomaker.env --network sagemaker-local -p 8080:5900 -it crr0004/deepracer_robomaker:console
+docker run --rm --name dr --env-file ./robomaker.env --network sagemaker-local -p 8080:5900 -it crr0004/deepracer_robomaker:console
 ```
 
 # Evaluation
