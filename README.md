@@ -166,12 +166,83 @@ Use the two highest memory values in the following command
 sudo nvidia-smi -ac 2505,1177
 ```
 
-# China track
+# Issues
+## China track
 Add the following to RoboMaker startup:
 ```
 -v {path_to_your_project_folder}/simulation/aws-robomaker-sample-application-deepracer/simulation_ws/src:/app/robomaker-deepracer/simulation_ws/src
 
 nohup docker run -v /home/ubuntu/deepracer/simulation/aws-robomaker-sample-application-deepracer/simulation_ws/src:/app/robomaker-deepracer/simulation_ws/src --rm --name dr --env-file ./robomaker.env --network sagemaker-local -p 8080:5900 -i crr0004/deepracer_robomaker:console > robomaker.log &
+```
+
+## OOM errors when using GPU
+Create folder sagemaker-redis-fix
+```
+mkdir sagemaker-redis-fix
+cd sagemaker-redis-fix
+```
+
+Create Dockerfile:
+```
+Dockerfile
+FROM crr0004/sagemaker-rl-tensorflow:nvidia
+
+COPY start.sh /usr/local/bin/start.sh
+RUN chmod +x /usr/local/bin/start.sh
+
+# Starts framework
+ENTRYPOINT ["/bin/bash", "-c", "start.sh train"]
+CMD ["start.sh", "train"]
+```
+Create new start.sh
+```
+#!/usr/bin/env bash
+
+echo "\$1 is $1"
+if [ "$1" == 'train' ]
+then
+	echo "In train start.sh"
+    # Remove all nvidia gl libraries if they exists to run training in SageMaker.
+    rm -rf /usr/local/nvidia/lib/libGL*
+    rm -rf /usr/local/nvidia/lib/libEGL*
+    rm -rf /usr/local/nvidia/lib/libOpenGL*
+    rm -rf /usr/local/nvidia/lib64/libGL*
+    rm -rf /usr/local/nvidia/lib64/libEGL*
+    rm -rf /usr/local/nvidia/lib64/libOpenGL*
+
+    CURRENT_HOST=$(jq .current_host  /opt/ml/input/config/resourceconfig.json)
+	echo "Current host is $CURRENT_HOST"
+
+    sed -ie "s/PLACEHOLDER_HOSTNAME/$CURRENT_HOST/g" /changehostname.c
+
+	echo "Compiling changehostname.c"
+    gcc -o /changehostname.o -c -fPIC -Wall /changehostname.c
+    gcc -o /libchangehostname.so -shared -export-dynamic /changehostname.o -ldl
+
+	echo "Done Compiling changehostname.c"
+	export XAUTHORITY=/root/.Xauthority
+	export DISPLAY=:0 # Select screen 0 by default.
+	xvfb-run -f $XAUTHORITY -l -n 0 -s ":0 -screen 0 1400x900x24" jwm &
+	CUDA_VISIBLE_DEVICES=-1 redis-server --bind 0.0.0.0 &
+	x11vnc -bg -forever -nopw -rfbport 5800 -display WAIT$DISPLAY &
+    LD_PRELOAD=/libchangehostname.so train &
+	wait
+elif [ "$1" == 'serve' ]
+then
+    serve
+fi
+```
+
+The CUDA_VISIBLE_DEVICES=-1 tells redis to not use the GPU.
+
+Build your own image to use:
+```
+docker build -t sagemaker-redis-fix .
+```
+
+Update rl_coach/rl_deepracer_coach_robomaker.py with your own image:
+```
+image_name="sagemaker-redis-fix",
 ```
 
 # TODO: 
