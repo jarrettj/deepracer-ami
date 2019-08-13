@@ -246,8 +246,11 @@ image_name="sagemaker-redis-fix",
 ```
 
 Or use mine jljordaan/sagemaker-rl-tensorflow:nvidia. 
+
 go into rl_coach/rl_deepracer_coach_robomaker.py
+
 find the place where you select sagemaker image, starting with crr0004/
+
 replace crr0004/ with jljordaan/
 
 This has worked for me, but it has not worked for others. Will have to look into this issue in more detail when I have a chance. 
