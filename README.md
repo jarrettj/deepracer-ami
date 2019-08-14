@@ -40,9 +40,9 @@ Really strugging with this instance type. The CPUs are awesome, but the GPU is n
 [GPU Details]
 nVidia Corporation [Tesla M60](https://www.nvidia.com/object/tesla-m60.html)
 
-Real Time Factor of coming soon.
+Real Time Factor of 0.5 - 0.7. This is concerning. As it affects training negatively. As it will take longer to train.
 Sample of time to train 10 models on the AWS_track with all settings left as default:
-coming soon
+Took about 80 minutes as well.
 
 ## g3.4xlarge
 |vCPU|ECU|Memory (GiB)|Instance Storage (GB)|Linux/UNIX Usage|Spot Usage
