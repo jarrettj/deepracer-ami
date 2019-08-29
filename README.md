@@ -76,36 +76,54 @@ Took about 70 minutes for the pretrained test.
 I made the same changes as before. Increased the action space speed and then updated to reward function slightly to cater for action space speed update.
 
 # Changes you have to make
-In robomaker.env and rl_coach/env.sh
+In robomaker.env and rl_coach/env.sh:
 1. WORLD_NAME - Replace with track you want to train
-2. S3_ENDPOINT_URL = service mini status - Replace with minio endpoint
+2. S3_ENDPOINT_URL = Run `sudo service mini status` - Use minio endpoint
 
-In rl_coach/rl_deepracer_coach_robomaker.py
-1. instance_type - local or local_gpu depending on ec2 type
+In rl_coach/rl_deepracer_coach_robomaker.py:
+1. instance_type - local or local_gpu depending on EC2 type
+
+In /mnt/data/minio/bucket/custom_files/reward.py add your reward function:
+
+`vim /mnt/data/minio/bucket/custom_files/reward.py`
+
+In /mnt/data/minio/bucket/custom_files/model_metadata.json add your action space
+
+`vim /mnt/data/minio/bucket/custom_files/model_metadata.json`
 
 # Starting training
 You don't have to use nohup, I simply use it to background the process and capture output to a file for analysis later.
 Sagemaker:
 ```
+cd ~/deepracer/rl_coach
+. env.sh
 nohup python rl_deepracer_coach_robomaker.py > sagemaker.log &
 ```
 Without nohup:
 ```
+cd ~/deepracer/rl_coach
+. env.sh
 python rl_deepracer_coach_robomaker.py
 ```
 
 Robomaker:
 ```
+cd ~/deepracer
+. robomaker.env
 nohup docker run --rm --name dr --env-file ./robomaker.env --network sagemaker-local -p 8080:5900 -i crr0004/deepracer_robomaker:console > robomaker.log &
 ```
 Without nohup:
 ```
+cd ~/deepracer
+. robomaker.env
 docker run --rm --name dr --env-file ./robomaker.env --network sagemaker-local -p 8080:5900 -it crr0004/deepracer_robomaker:console
 ```
 
 # Evaluation
 Update WORLD_NAME and the NUMBER_OF_TRIALS you want.
 ```
+cd ~/deepracer
+. robomaker.env
 docker run --rm --name dr_e --env-file ./robomaker.env --network sagemaker-local -p 8181:5900 -it -e "WORLD_NAME=reinvent_base" -e "NUMBER_OF_TRIALS=1" -e "METRICS_S3_OBJECT_KEY=custom_files/eval_metric.json" crr0004/deepracer_robomaker:console "./run.sh build evaluation.launch"
 ```
 
@@ -254,6 +272,25 @@ find the place where you select sagemaker image, starting with crr0004/
 replace crr0004/ with jljordaan/
 
 This has worked for me, but it has not worked for others. Will have to look into this issue in more detail when I have a chance. 
+
+Other attempts at fixing the dreaded OOM error:
+
+From Daniel Morgan:
+```
+sudo sysctl vm.overcommit_memory=1    # this allows docker to take more memory than what is required
+sudo sysctl -w net.core.somaxconn=512  # did this because rl_coach is set to enforce 511 for TCP backlog.
+sudo su
+echo never > /sys/kernel/mm/transparent_hugepage/enabled   #this one should be ran anytime you reboot the system haven't bother to automate it
+```
+I've added this to version 0.0.2. 
+
+Once sagemaker docker has started, execute the following:
+```
+# Increase buffer limit to 10GB
+docker exec -t $(docker ps | grep sagemaker | cut -d' ' -f1) redis-cli config set client-output-buffer-limit 'slave 10737418240 10737418240 0'
+# Set max memory to 10GB
+docker exec -t $(docker ps | grep sagemaker | cut -d' ' -f1) redis-cli config set maxmemory 10737418240
+```
 
 # TODO: 
 1. Script it all together to easily manage spot instances stopping.
