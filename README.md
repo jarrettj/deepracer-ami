@@ -202,7 +202,6 @@ cd sagemaker-redis-fix
 
 Create Dockerfile:
 ```
-Dockerfile
 FROM crr0004/sagemaker-rl-tensorflow:nvidia
 
 COPY start.sh /usr/local/bin/start.sh
