@@ -1,7 +1,7 @@
 #!/usr/bin/ruby
 require 'date'
 
-$userHome = "/home/jcmentoor"
+$userHome = "/home/ubuntu"
 $deepracerRepo = "#$userHome/deepracer"
 $sagemakerImage = "crr0004/sagemaker-rl-tensorflow:console_v1.1"
 $robomakerImage = "crr0004/deepracer_robomaker:console_v1.1"
@@ -9,45 +9,24 @@ $instanceType = "local"
 $dataPath = "/mnt/data"
 $modelPath = "#$dataPath/minio/bucket"
 $modelS3Prefix = "rl-deepracer-sagemaker"
-$s3Backup = "s3://aws-deepracer-c54751c5-fede-4e6f-9c4e-70d9ba19a191/bucket"
+$s3Backup = "s3://aws-deepracer-c54751c5-fede-4e6f-1d4g-70d9ba19a191/bucket"
 $pythonExe = "python"
 $minioIP = "http://172.17.0.1:9000"
 $isMac = false
 $offset = 1
-$versions = 10
+$versions = 20
 $source = "."
-$evalCount = 10
+$evalCount = 5
 $fileTime = 30
 $waitTime = 30
 $modelCount = 20
-$driver = "CanadaLocalV1"
+$driver = "CanadaTraining"
 $train = true
 $eval = true
-#$evalFilename = "#$deepracerRepo/robomaker-eval.log"
 $evalFilename = "#$deepracerRepo/train.log"
 
 tracks = [
-# "easy_track"
-#              "medium_track",
-#             "hard_loopy_track",
-#             "hard_speed_track",
-#             "hard_track",
-            #"AWS_track",
-            #"Bowtie_track",
-            #"China_track",
-#             "Mexico_track",
-            "Canada_Training",
-#            "China_eval_track",
-#            "H_track",
-#            "London_Loop_Train",
-#            "London_Loop_track",
-#            "New_York_Eval_Track",
-            #"New_York_Track",
-            #"Oval_track",
-            #"Straight_track",
-            #"Tokyo_Training_track",
-            #"Virtual_May19_Train_track",
-            #"reinvent_base",
+            "Canada_Training"
           ]
 
 def executeCmd(cmd, process = false)
@@ -222,6 +201,7 @@ for version in $offset..$versions
       while !File.file?(filename) do
         puts "Wait #$fileTime seconds for training."
         sleep($fileTime)
+        # TODO: How to output logs??? 
 #         executeCmd("docker logs $(docker ps -q --filter ancestor='#$robomakerImage') >& ~/aws-deepracer-workshops/log-analysis/logs/robomaker.log")
         killed = checkOOM(track)
         if killed
