@@ -159,6 +159,15 @@ I've put the aws-deepracer-workshops repo on the data mount at /mnt/data. You sh
 
 All you have to do now is copy your robomaker.log file into the /mnt/data/aws-deepracer-workshops/log-analysis/logs folder, then reference it in DeepRacer Log Analysis. I replace the fname with the path to the generated robomaker.log file.
 
+# Use training.rb
+
+Simply run:
+```
+nohup ruby train.rb > train.log &
+```
+
+Will add more details...
+
 # Optimise GPU 
 This might be needed. But first run your training before setting these. And remember it might take a while for the training to start. If the GPU is in use you should see the following:
 ```
