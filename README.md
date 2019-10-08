@@ -161,9 +161,11 @@ All you have to do now is copy your robomaker.log file into the /mnt/data/aws-de
 
 # Use training.rb
 
+Check the minio ip and update the value in the training.rb file. At $minioIP variable.
+
 Simply run:
 ```
-nohup ruby train.rb > train.log &
+nohup ruby training.rb > train.log &
 ```
 
 Will add more details...
