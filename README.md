@@ -75,6 +75,18 @@ Took about 70 minutes for the pretrained test.
 
 I made the same changes as before. Increased the action space speed and then updated to reward function slightly to cater for action space speed update.
 
+## g4dn.2xlarge
+|vCPU|ECU|Memory (GiB)|Instance Storage (GB)|Linux/UNIX Usage|Spot Usage
+| ---- | ---- | ---- | ---- | ---- | ---- |
+|8|34|32 GiB|225 SSD|$0.752 per Hour|$0.2487|
+Real Time Factor of 0.97 - 1.
+
+it's just as quick as the g3.4xlarge at almost half the price!.
+
+Does look like the best all round option. Has ample memory and the cost is very low compared! Might be a bit late to get in on the action this year. But surely keep this instance in mind for next year. 
+
+I've created a sepearate AMI for this instance as the nvidia drivers were different from all the other GPU based machines. You can still find it by searching for deepracer. Named it deepracer-g4dn-ami-0.0.1.
+
 ## c5.2xlarge
 |vCPU|ECU|Memory (GiB)|Instance Storage (GB)|Linux/UNIX Usage|Spot Usage
 | ---- | ---- | ---- | ---- | ---- | ---- |
