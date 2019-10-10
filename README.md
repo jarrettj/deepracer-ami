@@ -78,7 +78,11 @@ I made the same changes as before. Increased the action space speed and then upd
 ## g4dn.2xlarge
 |vCPU|ECU|Memory (GiB)|Instance Storage (GB)|Linux/UNIX Usage|Spot Usage
 | ---- | ---- | ---- | ---- | ---- | ---- |
-|8|34|32 GiB|225 SSD|$0.752 per Hour|$0.2487|
+|8|NA|32 GiB|225 SSD|$0.752 per Hour|$0.2487|
+
+[GPU Details] 
+nVidia Corporation [Tesla T4](https://www.nvidia.com/en-us/data-center/tesla-t4/)
+
 Real Time Factor of 0.97 - 1.
 
 it's just as quick as the g3.4xlarge at almost half the price!.
