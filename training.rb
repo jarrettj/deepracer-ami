@@ -133,9 +133,9 @@ def backupLogFiles(track, version)
   puts "Backup training log files"
   executeCmd("cd #$deepracerRepo && mv robomaker.log"\
   " #$dataPath/logs/robomaker-train-#$driver-#{track}-#{version}.log")
-  currentDT = Time.new
   executeCmd("cd #$deepracerRepo && cp train.log"\
-    " #$dataPath/logs/train-#$driver-#{track}-#{version}.log && truncate -s 0 train.log")
+    " #$dataPath/logs/train-#$driver-#{track}-#{version}.log && tail -n +2 train.log > fileout"\
+    " && mv fileout #$dataPath/logs/train-#$driver-#{track}-#{version}.log && truncate -s 0 train.log")
   executeCmd("cd #$deepracerRepo && mv rl_coach/sagemaker.log"\
   " #$dataPath/logs/sagemaker-train-#$driver-#{track}-#{version}.log")
 end
@@ -161,7 +161,8 @@ def backupEvalFiles(track, eval_track, version)
   executeCmd("mv #$modelPath/custom_files/eval_metric.json "\
   " #$dataPath/logs/eval_metric-#$driver-#{track}-#{eval_track}-#{version}.json")
   executeCmd("cd #$deepracerRepo && cp train.log"\
-    " #$dataPath/logs/train-eval-#$driver-#{track}-#{eval_track}-#{version}.log && truncate -s 0 train.log")
+    " #$dataPath/logs/train-eval-#$driver-#{track}-#{eval_track}-#{version}.log && tail -n +2 train.log > fileout"\
+    " && mv fileout #$dataPath/logs/train-eval-#$driver-#{track}-#{eval_track}-#{version}.log && truncate -s 0 train.log")
 end
 
 def pruneContainers()
