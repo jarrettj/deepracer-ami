@@ -105,7 +105,7 @@ Fine for training with low HP values. What worked for me was 20 Episodes and 3 E
 # Changes you have to make
 In robomaker.env and rl_coach/env.sh:
 1. WORLD_NAME - Replace with track you want to train
-2. S3_ENDPOINT_URL = Run `sudo service mini status` - Use minio endpoint
+2. S3_ENDPOINT_URL = Run `sudo service minio status` - Use minio endpoint
 
 In rl_coach/rl_deepracer_coach_robomaker.py:
 1. instance_type - local or local_gpu depending on EC2 type
